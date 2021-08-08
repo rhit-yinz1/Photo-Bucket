@@ -12,7 +12,7 @@ class PBViewController: UITableViewController {
     var pbs = [PB]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.leftBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(showAddPBDialog))
         
         
@@ -47,6 +47,8 @@ class PBViewController: UITableViewController {
         
         present(alertController, animated: true, completion: nil)
     }
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pbs.count
     }
@@ -55,5 +57,12 @@ class PBViewController: UITableViewController {
         //configure cell
         cell.textLabel?.text = pbs[indexPath.row].caption
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete){
+            pbs.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
     }
 }
