@@ -18,12 +18,34 @@ class PBViewController: UITableViewController {
         
         pbs.append(PB(url: "urrrl1", caption: "things1"))
         pbs.append(PB(url: "urrrl2", caption: "things2"))
-
+        
     }
     
     
     @objc func showAddPBDialog(){
-        print("you pressed aadd button")
+        //CRUD
+        let alertController = UIAlertController(title: "new PB", message: "", preferredStyle: UIAlertController.Style.alert)
+        
+        //configure
+        alertController.addTextField { urlTextField in
+            urlTextField.placeholder = "URL"
+        }
+        alertController.addTextField { capTextField in
+            capTextField.placeholder = "caption"
+        }
+        let submitAction = UIAlertAction(title: "Create Photo", style: UIAlertAction.Style.default) { action in
+            let urlTextField = alertController.textFields![0] as UITextField
+            let capTextField = alertController.textFields![1] as UITextField
+            let newPB = PB(url: urlTextField.text!, caption: capTextField.text!)
+            self.pbs.insert(newPB, at: 0)
+            self.tableView.reloadData()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(submitAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pbs.count
