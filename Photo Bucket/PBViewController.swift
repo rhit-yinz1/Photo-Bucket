@@ -9,15 +9,17 @@ import UIKit
 
 class PBViewController: UITableViewController {
     let pbCellIdentifier = "PBCellIdentifier"
+    let detailSegueID = "DetailSegue"
     var pbs = [PB]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(showAddPBDialog))
         
         
-        pbs.append(PB(url: "urrrl1", caption: "things1"))
-        pbs.append(PB(url: "urrrl2", caption: "things2"))
+        pbs.append(PB(url: "https://upload.wikimedia.org/wikipedia/commons/0/04/Hurricane_Isabel_from_ISS.jpg", caption: "things1"))
+        pbs.append(PB(url: "https://upload.wikimedia.org/wikipedia/commons/0/00/Flood102405.JPG", caption: "things2"))
         
     }
     
@@ -33,7 +35,7 @@ class PBViewController: UITableViewController {
         alertController.addTextField { capTextField in
             capTextField.placeholder = "caption"
         }
-        let submitAction = UIAlertAction(title: "Create Photo", style: UIAlertAction.Style.default) { action in
+        let submitAction = UIAlertAction(title: "Create a new Photo Entry", style: UIAlertAction.Style.default) { action in
             let urlTextField = alertController.textFields![0] as UITextField
             let capTextField = alertController.textFields![1] as UITextField
             let newPB = PB(url: urlTextField.text!, caption: capTextField.text!)
@@ -48,6 +50,10 @@ class PBViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pbs.count
@@ -65,4 +71,13 @@ class PBViewController: UITableViewController {
             tableView.reloadData()
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == detailSegueID {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                (segue.destination as! PBDetailViewController).pb = pbs[indexPath.row]
+            }
+        }
+    }
+    
 }
