@@ -18,15 +18,15 @@ class PBViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(showAddPBDialog))
         
         
-        pbs.append(PB(url: "https://upload.wikimedia.org/wikipedia/commons/0/04/Hurricane_Isabel_from_ISS.jpg", caption: "things1"))
-        pbs.append(PB(url: "https://upload.wikimedia.org/wikipedia/commons/0/00/Flood102405.JPG", caption: "things2"))
+        pbs.append(PB(url: "https://upload.wikimedia.org/wikipedia/commons/0/04/Hurricane_Isabel_from_ISS.jpg", caption: "test img1"))
+        pbs.append(PB(url: "https://upload.wikimedia.org/wikipedia/commons/0/00/Flood102405.JPG", caption: "test img2"))
         
     }
     
     
     @objc func showAddPBDialog(){
         //CRUD
-        let alertController = UIAlertController(title: "new PB", message: "", preferredStyle: UIAlertController.Style.alert)
+        let alertController = UIAlertController(title: "Create a new Photo Entry", message: "", preferredStyle: UIAlertController.Style.alert)
         
         //configure
         alertController.addTextField { urlTextField in
@@ -35,7 +35,7 @@ class PBViewController: UITableViewController {
         alertController.addTextField { capTextField in
             capTextField.placeholder = "caption"
         }
-        let submitAction = UIAlertAction(title: "Create a new Photo Entry", style: UIAlertAction.Style.default) { action in
+        let submitAction = UIAlertAction(title: "Create", style: UIAlertAction.Style.default) { action in
             let urlTextField = alertController.textFields![0] as UITextField
             let capTextField = alertController.textFields![1] as UITextField
             let newPB = PB(url: urlTextField.text!, caption: capTextField.text!)

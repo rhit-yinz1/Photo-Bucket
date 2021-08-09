@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>527373874498-1f3lefs7dp08un9req1nq6713bi98h31.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.527373874498-1f3lefs7dp08un9req1nq6713bi98h31</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCXB8rQemQxeV0KdNN7FeQby-QKilo7_8c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>527373874498</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>edu.rose-hulman.yinz1.Photo-Bucket</string>
+	<key>PROJECT_ID</key>
+	<string>yinz1-ios-pb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>yinz1-ios-pb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:527373874498:ios:6443a06f40320a034684db</string>
+</dict>
+</plist>

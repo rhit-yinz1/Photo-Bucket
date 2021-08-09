@@ -15,6 +15,7 @@ class PBDetailViewController: UIViewController {
     var pb: PB?
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        updateView()
     }
     
     override func viewDidLoad() {
