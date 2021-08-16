@@ -6,18 +6,36 @@
 //
 
 import UIKit
+import Firebase
 
 class PBDetailViewController: UIViewController {
     
     @IBOutlet weak var capLabel: UILabel!
     @IBOutlet weak var photoView: UIImageView!
-    
+    var pbRef: DocumentReference!
+    var pbListener: ListenerRegistration!
     var pb: PB?
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateView()
+        pbListener = pbRef.addSnapshotListener { documentSnapshot, error in
+            if let error = error {
+                print("Error getting movie quote \(error)")
+                return
+            }
+            
+            if !documentSnapshot!.exists {
+                print("//might go back to the list since someone delete this doc")
+                return
+            }
+            
+            self.pb = PB(documentSnapshot: documentSnapshot!)
+            self.updateView()
+        }
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        pbListener.remove()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(showEditDialog))
@@ -28,15 +46,16 @@ class PBDetailViewController: UIViewController {
         let alertController = UIAlertController(title: "Photo Caption", message: "", preferredStyle: UIAlertController.Style.alert)
         
         //configure
-
+        
         alertController.addTextField { capTextField in
             capTextField.placeholder = "caption"
             capTextField.text = self.pb?.caption
         }
         let submitAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default) { action in
             let capTextField = alertController.textFields![0] as UITextField
-            self.pb?.caption = capTextField.text!
-            self.updateView()
+            self.pbRef.updateData([
+                "imgCaption": capTextField.text!
+            ])
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
         
@@ -46,6 +65,9 @@ class PBDetailViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     func updateView(){
+        if let imgString = pb?.url{
+            print("url: \(imgString)")
+        }
         capLabel.text = pb?.caption
         if let imgString = pb?.url {
             if let imgUrl = URL(string: imgString) {
@@ -60,20 +82,19 @@ class PBDetailViewController: UIViewController {
                     }
                 }
             }
-        } else {
-            let iURL = URL(string: getRandomImageUrl())
-            DispatchQueue.global().async { // Download in the background
-                do {
-                    let data = try Data(contentsOf: iURL!)
-                    DispatchQueue.main.async { // Then update on main thread
-                        self.photoView.image = UIImage(data: data)
+            if imgString == "" {
+                let iURL = URL(string: getRandomImageUrl())
+                DispatchQueue.global().async { // Download in the background
+                    do {
+                        let data = try Data(contentsOf: iURL!)
+                        DispatchQueue.main.async { // Then update on main thread
+                            self.photoView.image = UIImage(data: data)
+                        }
+                    } catch {
+                        print("Error downloading image: \(error)")
                     }
-                } catch {
-                    print("Error downloading image: \(error)")
                 }
             }
-            
-            
         }
     }
     

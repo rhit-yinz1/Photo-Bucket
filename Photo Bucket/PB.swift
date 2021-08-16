@@ -6,13 +6,23 @@
 //
 
 import Foundation
-
+import Firebase
 class PB {
     var url: String
     var caption: String
+    var id: String?
+    
+    
     
     init(url: String, caption: String){
         self.url = url
         self.caption = caption
+    }
+    
+    init(documentSnapshot: DocumentSnapshot) {
+        self.id = documentSnapshot.documentID
+        let data = documentSnapshot.data()!
+        self.url = data["imgUrl"] as! String
+        self.caption = data["imgCaption"] as! String
     }
 }
